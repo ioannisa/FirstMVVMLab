@@ -22,15 +22,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import coil.compose.rememberAsyncImagePainter
+import eu.anifantakis.firstmvvmlab.model.Movie
 
 @Composable
-fun MoviesListScreen(
+fun MoviesListScreenRoot(
     modifier: Modifier = Modifier,
+    onGotoSelectedMovie: (Movie) -> Unit = {},
     viewModel: MoviesListViewModel = viewModel(
         factory = viewModelFactory {
             initializer {
@@ -47,12 +50,27 @@ fun MoviesListScreen(
         viewModel.effectChannel.collect { effect ->
             when (effect) {
                 is MoviesListEffect.GotoMovieDetailsScreen -> {
+                    onGotoSelectedMovie(effect.movie)
                     println("From SCREEN ${effect.movie.title}")
                 }
             }
         }
     }
 
+    MoviesListScreen(
+        state = state,
+        onIntent = viewModel::processIntent,
+        modifier = modifier
+    )
+}
+
+
+@Composable
+private fun MoviesListScreen(
+    state: MoviesListState,
+    onIntent: (MoviesListIntent) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = modifier
             .fillMaxSize(),
@@ -74,7 +92,7 @@ fun MoviesListScreen(
 
                     Button(
                         onClick = {
-                            viewModel.processIntent(MoviesListIntent.LoadMovies)
+                            onIntent(MoviesListIntent.LoadMovies)
                         }
                     ) {
                         Text(
@@ -92,7 +110,7 @@ fun MoviesListScreen(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable {
-                                        viewModel.processIntent(MoviesListIntent.SelectMovie(movie))
+                                        onIntent(MoviesListIntent.SelectMovie(movie))
                                     }
                             ) {
                                 Image(
@@ -109,9 +127,18 @@ fun MoviesListScreen(
                     }
                 }
             }
-
-
         }
     }
+}
 
+@Preview
+@Composable
+fun MoviesListScreenPreview() {
+    MoviesListScreen(
+        state = MoviesListState(
+            isLoading = true
+        ),
+        onIntent = {}
+
+    )
 }
