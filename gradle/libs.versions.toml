@@ -1,6 +1,6 @@
 [versions]
 agp = "8.9.0"
-kotlin = "2.1.10"
+kotlin = "2.1.20"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -10,6 +10,13 @@ activityCompose = "1.10.1"
 composeBom = "2025.03.00"
 
 coil-compose = "2.6.0"
+navigationCompose = "2.8.9"
+kotlinxSerializationJson = "1.8.0"
+com-google-devtools-ksp = "2.1.20-1.0.31"
+kotlinxSerialization = "2.1.20"
+
+
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,8 +40,19 @@ androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-
 # Coil for image loading from the network
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# ksp (Kotlin Symbol Processing)
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools-ksp" }
+
+# serialization
+jetbrains-kotlin-serialization = { id ="org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinxSerialization"}
+
 

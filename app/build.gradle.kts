@@ -2,6 +2,11 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    // KSP + Serialization Plugins
+    alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+
 }
 
 android {
@@ -50,9 +55,17 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-
+    // allow for viewmodel usage at Compose
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    // allow to load images from the network
     implementation(libs.coil.compose)
+
+    // Compose Navigation
+    implementation(libs.androidx.navigation.compose)
+    // Kotlin Serialization JSON
+    implementation(libs.kotlinx.serialization.json)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
